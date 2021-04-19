@@ -188,7 +188,7 @@ def saveImage():
     global display
     filename = ''
     filename = filedialog.asksaveasfilename(
-        initialdir='/Users/Mugdha', title='Save File', filetypes=(('JPG', '*.jpg'), ('All files', '*.*')))
+        initialdir='C:/Users/onesh/OneDrive/Desktop/OpenCV/RDBMS-IA2', title='Save File', filetypes=(('JPG', '*.jpg'), ('All files', '*.*')))
     print(filename)
 
     if filename != '':
