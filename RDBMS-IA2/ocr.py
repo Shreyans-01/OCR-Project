@@ -27,65 +27,65 @@ def openImage():
     cv2.imshow('OG', img)
 
 
-def autoCrop():
-    global img
-    global cropped
-    copy = np.copy(img)
+# def autoCrop():
+#     global img
+#     global cropped
+#     copy = np.copy(img)
 
-    imgGrey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    kernel = np.ones((13, 13))
+#     imgGrey = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+#     kernel = np.ones((13, 13))
 
-    # pre-processing
+#     # pre-processing
 
-    thresh = cv2.adaptiveThreshold(
-        imgGrey, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 151, 2)
-    dilate = cv2.dilate(thresh, kernel)
-    canny = cv2.Canny(dilate, 100, 200)
+#     thresh = cv2.adaptiveThreshold(
+#         imgGrey, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 151, 2)
+#     dilate = cv2.dilate(thresh, kernel)
+#     canny = cv2.Canny(dilate, 100, 200)
 
-    # get that page
+#     # get that page
 
-    contours, hierarchy = cv2.findContours(
-        canny, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+#     contours, hierarchy = cv2.findContours(
+#         canny, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
-    areas = [cv2.contourArea(c) for c in contours]
-    maxIndex = np.argmax(areas)
-    maxContour = contours[maxIndex]
+#     areas = [cv2.contourArea(c) for c in contours]
+#     maxIndex = np.argmax(areas)
+#     maxContour = contours[maxIndex]
 
-    # get those points
+#     # get those points
 
-    peri = cv2.arcLength(maxContour, True)
-    points = cv2.approxPolyDP(maxContour, 0.03*peri, True)
+#     peri = cv2.arcLength(maxContour, True)
+#     points = cv2.approxPolyDP(maxContour, 0.03*peri, True)
 
-    # warp those points
+#     # warp those points
 
-    if points.size == 8:
-        sumList = [(x[0, 0] + x[0, 1]) for x in points]
-        diffList = [(x[0, 0] - x[0, 1]) for x in points]
+#     if points.size == 8:
+#         sumList = [(x[0, 0] + x[0, 1]) for x in points]
+#         diffList = [(x[0, 0] - x[0, 1]) for x in points]
 
-        minSum = np.argmin(sumList)
-        maxSum = np.argmax(sumList)
-        minDiff = np.argmin(diffList)
-        maxDiff = np.argmax(diffList)
+#         minSum = np.argmin(sumList)
+#         maxSum = np.argmax(sumList)
+#         minDiff = np.argmin(diffList)
+#         maxDiff = np.argmax(diffList)
 
-        sorted = np.array([points[minSum, 0], points[maxDiff, 0],
-                           points[minDiff, 0], points[maxSum, 0]], dtype=np.float32)
+#         sorted = np.array([points[minSum, 0], points[maxDiff, 0],
+#                            points[minDiff, 0], points[maxSum, 0]], dtype=np.float32)
 
-        warpedPoints = np.array(
-            [(0, 0), (1500, 0), (0, 2000), (1500, 2000)], dtype=np.float32)
+#         warpedPoints = np.array(
+#             [(0, 0), (1500, 0), (0, 2000), (1500, 2000)], dtype=np.float32)
 
-        perspective = cv2.getPerspectiveTransform(sorted, warpedPoints)
-        warped = cv2.warpPerspective(img, perspective, (1500, 2000))
+#         perspective = cv2.getPerspectiveTransform(sorted, warpedPoints)
+#         warped = cv2.warpPerspective(img, perspective, (1500, 2000))
 
-        cv2.drawContours(copy, contours, maxIndex, (0, 255, 0), 1)
-        cv2.drawContours(copy, [points], -1, (0, 0, 255), 3)
-        cv2.namedWindow('copy', cv2.WINDOW_NORMAL)
-        cv2.imshow('copy', copy)
+#         cv2.drawContours(copy, contours, maxIndex, (0, 255, 0), 1)
+#         cv2.drawContours(copy, [points], -1, (0, 0, 255), 3)
+#         cv2.namedWindow('copy', cv2.WINDOW_NORMAL)
+#         cv2.imshow('copy', copy)
 
-        global display
+#         global display
 
-        display = warped
-        displayImage()
-        cropped = warped
+#         display = warped
+#         displayImage()
+#         cropped = warped
 
 
 def manualCrop():
