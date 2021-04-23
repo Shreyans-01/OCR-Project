@@ -1,6 +1,6 @@
 # OCR-Project
 
-Omkar Sawant   1911118 COMPS B-4
+Omkar Sawant   1911118 COMPS B-4, 
 Shreyans Mehta 1911124 COMPS B-4
 
 Mentors: Pradnya Bhangale, Vaibhav Vasani
