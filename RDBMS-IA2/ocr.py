@@ -15,6 +15,8 @@ display = np.array([0], dtype=np.uint8)
 clicks = np.zeros(shape=(4, 2), dtype=np.float32)
 index = 0
 
+# Select Images from the chosen Folder
+
 
 def openImage():
     global img
@@ -87,7 +89,7 @@ def openImage():
 #         displayImage()
 #         cropped = warped
 
-
+# To start cropping
 def manualCrop():
     textFound = 'Click the points of the cropped picture in the following order\n\nTop Left\nTop Right\nBottom Left\nBottom Right'
     text.insert('1.0', textFound)
@@ -113,6 +115,8 @@ def onClick(event, x, y, flags, param):
         else:
             pass
 
+# Image Alignment
+
 
 def warpImage():
     global clicks
@@ -136,6 +140,8 @@ def warpImage():
     displayImage()
     cropped = warped
 
+# Detect Text
+
 
 def getText():
     global cropped
@@ -156,6 +162,8 @@ def getText():
     global display
     display = thresh
     displayImage()
+
+# Highlight Text With Blue Lines on the Open Image
 
 
 def showText():
@@ -183,6 +191,8 @@ def displayImage():
     cv2.namedWindow('other', cv2.WINDOW_NORMAL)
     cv2.imshow('other', display)
 
+# Save Generated Image
+
 
 def saveImage():
     global display
@@ -194,6 +204,8 @@ def saveImage():
     if filename != '':
         cv2.imwrite(filename, display)
 
+# Destroy Open Windows
+
 
 def closeAllWindows():
     cv2.destroyAllWindows()
@@ -203,6 +215,7 @@ def working():
     print('Yep, this callback works.')
 
 
+# GUI
 root = tk.Tk()
 
 canvas = tk.Canvas(root, height=1000, width=1000, bg='black')
